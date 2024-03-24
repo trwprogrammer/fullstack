@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: trwp-fullstack-dictionary
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/fullstack
+    username: root
+    password: notagoodpassword
+    hikari.connection-init-sql: select 1
+    hikari.connection-timeout: 30000
+    hikari.maximum-pool-size: 10
+    hikari.driver-class-name: com.mysql.cj.jdbc.Driver
