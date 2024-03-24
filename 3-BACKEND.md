@@ -8,16 +8,19 @@
 ## Create spring boot project from option (A) or (B)
 See [spring.io](https://spring.io/) for more info on the Java Spring Framework
 ### Option A: Using Spring Initializr CLI (The cool way)
+
+See [Spring Initializr CLI](https://docs.spring.io/spring-boot/docs/current/reference/html/cli.html) for more info
+
 ##### Install Spring Initializer
 MacOS using Homebrew
 ```bash
 brew tap spring-io/tap
 brew install spring-boot
-https://docs.spring.io/spring-boot/docs/current/reference/html/cli.html
 ```
 
 ##### Create backend using Spring Initializr CLI
 See [Spring Initializr](https://start.spring.io) for more info
+
 ```bash
 spring init \
 --description="The Real World Programmer - Fullstack Tutorial" \
@@ -27,14 +30,14 @@ spring init \
 --version=0.0.1-SNAPSHOT \
 --build=maven \
 --group=io.trwp.tuts.fullstack \
---artifact-id=liff \
+--artifact-id=dictionary \
 --dependencies=web,devtools,configuration-processor,lombok,data-jpa,mysql \
 --packaging=jar \
 backend
 ```
 
 ### Option B: Download the Spring app using the following URL and extract
-[Spring Initializr Project](https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.2.4&packaging=jar&jvmVersion=17&groupId=io.trwp.tuts.fullstack&artifactId=liff&name=liff&description=The%20Real%20World%20Programmer%20-%20Fullstack%20Tutorial&packageName=io.trwp.tuts.fullstack.liff&dependencies=web,devtools,configuration-processor,lombok,data-jpa,mysql)
+[Spring Initializr Project](https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.2.4&packaging=jar&jvmVersion=17&groupId=io.trwp.tuts.fullstack&artifactId=dictionary&name=dictionary&description=The%20Real%20World%20Programmer%20-%20Fullstack%20Tutorial&packageName=io.trwp.tuts.fullstack.dictionary&dependencies=web,devtools,configuration-processor,lombok,data-jpa,mysql)
 
 ##  Modify the starter project
 Rename `src/main/resources/application.properties` to `src/main/resources/application.yml` and add the following settings:
@@ -42,9 +45,9 @@ Rename `src/main/resources/application.properties` to `src/main/resources/applic
 ```yaml
 spring:
   application:
-    name: trwp-fullstack-tutorial-api
+    name: trwp-fullstack-dictionary
   datasource:
-    url: jdbc:mysql://127.0.0.1:33060/fullstack
+    url: jdbc:mysql://127.0.0.1:3306/fullstack
     username: root
     password: notagoodpassword
     hikari.connection-init-sql: select 1
@@ -59,18 +62,18 @@ Create a new file `src/main/resources/banner.txt` with contents:
 
 ```text
 ┏━━━✦❘༻༺❘✦━━━━┓
-  fullstack-api
+  fullstack-dic
 ┗━━━✦❘༻༺❘✦━━━━┛
 ```
 
 ## Create backend classes
 
-* Rename main class `io.trwp.tuts.fullstack.liff.DemoApplication` to `io.trwp.tuts.fullstack.liff.LiffApplication`
-* Create a new package `io.trwp.tuts.fullstack.liff.entities` for JPA Entities
-* Create the Liff JPA Entity class `io.trwp.tuts.fullstack.liff.entities.LiffEntity`
+* Rename main class `io.trwp.tuts.fullstack.dictionary.DemoApplication` to `io.trwp.tuts.fullstack.dictionary.DictionaryApplication`
+* Create a new package `io.trwp.tuts.fullstack.dictionary.entities` for JPA Entities
+* Create a Dictionary Definition JPA Entity class `io.trwp.tuts.fullstack.dictionary.entities.DefinitionEntity`
 
 ```java
-package io.trwp.tuts.fullstack.liff.entities;
+package io.trwp.tuts.fullstack.dictionary.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -80,10 +83,10 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "liffs")
+@Table(name = "definitions")
 @Getter
 @Setter
-public class LiffEntity {
+public class DefinitionEntity {
     
     @Id
     private String id;
@@ -93,77 +96,77 @@ public class LiffEntity {
 }
 ```
 
-* Create a new package `io.trwp.tuts.fullstack.liff.repos` for JPA Repositories
-* Create the Liff JPA Repository class `io.trwp.tuts.fullstack.liff.repos.LiffJpaRepository`
+* Create a new package `io.trwp.tuts.fullstack.dictionary.repos` for JPA Repositories
+* Create the Definition JPA Repository class `io.trwp.tuts.fullstack.dictionary.repos.DefinitionJpaRepository`
 
 ```java
-package io.trwp.tuts.fullstack.liff.repos;
+package io.trwp.tuts.fullstack.dictionary.repos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import io.trwp.tuts.fullstack.entities.LiffEntity;
+import io.trwp.tuts.fullstack.entities.DefinitionEntity;
 
 @Repository
-public interface LiffJpaRepository extends JpaRepository<LiffEntity, String> {
+public interface DefinitionJpaRepository extends JpaRepository<DefinitionEntity, String> {
 
 }
 ```
 
-* Create a new package `io.trwp.tuts.fullstack.liff.services` for custom Spring services
-* Create a new class `io.trwp.tuts.fullstack.liff.services.LiffService`
+* Create a new package `io.trwp.tuts.fullstack.dictionary.services` for custom Spring services
+* Create a new class `io.trwp.tuts.fullstack.dictionary.services.DefinitionService`
 
 ```java
-package io.trwp.tuts.fullstack.liff.services;
+package io.trwp.tuts.fullstack.dictionary.services;
 
 import java.util.List;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
-import io.trwp.tuts.fullstack.entities.LiffEntity;
-import io.trwp.tuts.fullstack.repos.LiffJpaRepository;
+import io.trwp.tuts.fullstack.entities.DefinitionEntity;
+import io.trwp.tuts.fullstack.repos.DefinitionJpaRepository;
 
 
 @Service
-public class LiffService {
-    private final List<LiffEntity> liffEntities;
+public class DefinitionService {
+    private final List<DefinitionEntity> definitionEntities;
     
-    public LiffService(LiffJpaRepository liffJpaRepository) {
-        liffEntities = liffJpaRepository.findAll();
+    public DefinitionService(DefinitionJpaRepository definitionJpaRepository) {
+        definitionEntities = definitionJpaRepository.findAll();
     }
     
-    public LiffEntity getRandomLiff() {
-        return liffEntities.get(new Random().nextInt(liffEntities.size()));
+    public DefinitionEntity getRandomDefinition() {
+        return definitionEntities.get(new Random().nextInt(definitionEntities.size()));
     }
 }
 ```
 
-* Create a new package `io.trwp.tuts.fullstack.liff.rest` for custom Rest endpoints
-* Create a new class `io.trwp.tuts.fullstack.liff.rest.LiffRestController`
+* Create a new package `io.trwp.tuts.fullstack.definition.rest` for custom Rest endpoints
+* Create a new class `io.trwp.tuts.fullstack.definition.rest.DefinitionRestController`
 
 ```java
-package io.trwp.tuts.fullstack.liff.rest;
+package io.trwp.tuts.fullstack.definition.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.trwp.tuts.fullstack.entities.LiffEntity;
-import io.trwp.tuts.fullstack.services.LiffService;
+import io.trwp.tuts.fullstack.entities.DefinitionEntity;
+import io.trwp.tuts.fullstack.services.DefinitionService;
 
 
 @RestController
-public class LiffRestController {
+public class DefinitionRestController {
 
-    private final LiffService liffService;
+    private final DefinitionService definitionService;
     
-    public LiffRestController(LiffService liffService) {
-        this.liffService = liffService;
+    public DefinitionRestController(DefinitionService definitionService) {
+        this.definitionService = definitionService;
     }
 
-    @GetMapping("liff")
-    public LiffEntity liff() {
-        return liffService.getRandomLiff();
+    @GetMapping("definition")
+    public DefinitionEntity definition() {
+        return definitionService.getRandomDefinition();
     }
     
 }
@@ -175,11 +178,11 @@ To start backend run the following command in the backend directory
 ./mvnw spring-boot:run
 ```
 
-The Liff Rest service endpoint should now be available at http://localhost:8080/liff. 
+The Definition Rest service endpoint should now be available at http://localhost:8080/definition. 
 You can open in your browser or use the below [cURL](https://curl.se/) command to test
 
 ```bash
-curl http://localhost:8080/liff
+curl http://localhost:8080/definition
 ```
 
 You should get some JSON output
