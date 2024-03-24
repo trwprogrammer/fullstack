@@ -1,0 +1,27 @@
+.definition-card {
+  max-width: 400px;
+  margin: auto;
+  width: 50%;
+}
+
+.definition-card mat-card-subtitle {
+  font-family: "Marck Script", cursive;
+  font-size: large;
+}
+
+.definition-card p {
+  font-family: "Marck Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: xx-large;
+  padding-bottom: 30px;
+}
+
+.definition-card mat-card-content {
+  background-color: #e5e5e5;
+}
+
+.definition-card-header-image {
+  background-image: url('/assets/img/book_image.png');
+  background-size: cover;
+}
