@@ -14,7 +14,7 @@ mkdir docker
 
 ### Convenience scripts
 
-* Create a stack_up.sh script to launch docker-compose
+* Create a `stack_up.sh` script to launch docker-compose
 
 ```bash
 #!/bin/bash
@@ -24,7 +24,12 @@ docker-compose up -d
 cd ..
 ```
 
-* Create a stack_down.sh script to shut down a Docker stack
+Make `stack_up.sh` executable:
+```bash
+chmod u+x stack_up.sh
+```
+
+* Create a `stack_down.sh` script to shut down a Docker stack
 
 ```bash
 #!/bin/bash
@@ -48,14 +53,19 @@ docker-compose down
 cd ..
 ```
 
+Make `stack_down.sh` executable:
+```bash
+chmod u+x stack_down.sh
+```
+
 You can now easily start up and shutdown a stack using these scripts examples:
 
 ```bash
-./stack_up.sh mysql
+./stack_up.sh SERVICE_FOLDER_NAME
 ```
 
 ```bash
-./stack_down.sh mysql
+./stack_down.sh SERVICE_FOLDER_NAME
 ```
 
 Please note that stack_down.sh will not remove custom volumes and those need to be removed manually
@@ -203,7 +213,7 @@ services:
     container_name: fullstack-mysql
     hostname: fullstack-mysql
     ports:
-      - 33060:3306
+      - 3306:3306
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: 'fullstack'
