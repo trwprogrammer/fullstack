@@ -105,7 +105,7 @@ package io.trwp.tuts.fullstack.dictionary.repos;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import io.trwp.tuts.fullstack.entities.DefinitionEntity;
+import io.trwp.tuts.fullstack.dictionary.entities.DefinitionEntity;
 
 @Repository
 public interface DefinitionJpaRepository extends JpaRepository<DefinitionEntity, String> {
@@ -124,8 +124,8 @@ import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
-import io.trwp.tuts.fullstack.entities.DefinitionEntity;
-import io.trwp.tuts.fullstack.repos.DefinitionJpaRepository;
+import io.trwp.tuts.fullstack.dictionary.entities.DefinitionEntity;
+import io.trwp.tuts.fullstack.dictionary.repos.DefinitionJpaRepository;
 
 
 @Service
@@ -151,8 +151,8 @@ package io.trwp.tuts.fullstack.definition.rest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.trwp.tuts.fullstack.entities.DefinitionEntity;
-import io.trwp.tuts.fullstack.services.DefinitionService;
+import io.trwp.tuts.fullstack.dictionary.entities.DefinitionEntity;
+import io.trwp.tuts.fullstack.dictionary.services.DefinitionService;
 
 
 @RestController
@@ -188,9 +188,9 @@ curl http://localhost:8080/definition
 You should get some JSON output
 ```json
 {
-  "id": "plymouth",
-  "lexicalCategories": "verb",
-  "title": "Plymouth",
-  "definition": "To relate an amusing story to someone without remembering that it was they who told it to you in the first place."
+  "id": "computer",
+  "lexicalCategories": "noun",
+  "title": "Computer",
+  "definition": "An electronic device for storing and processing data, typically in binary form, according to instructions given to it in a variable program."
 }
 ```
