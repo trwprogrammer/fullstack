@@ -4,14 +4,36 @@ Liquibase is a technology to manage database migrations. It keeps track of chang
 and ensures a consistent database state. 
 
 ## Liquibase
-Install [Liquibase](https://www.liquibase.com/) (outside the scope of this project)
+Install [Liquibase](https://www.liquibase.com/) using one of the many options (outside the scope of this project)
 
-I have my own preference of using Liquibase and will download the JAR file along with its dependencies inside my projects.
-This means that having to run Liquibase on any environment only requires a valid Java runtime to be available.
+Here is one option install it on MacOS using homebrew
+
+
+### Install Liquibase using homebrew
+```bash
+brew install liquibase
+```
+
+Take note of installation message to set `LIQUIBASE_HOME` variable correctly
+```
+You should set the environment variable LIQUIBASE_HOME to
+  /opt/homebrew/opt/liquibase/libexec
+```
+
 
 ### Create a liquibase directory to contain the changelog files and liquibase configuration
 ```bash
 mkdir liquibase
+```
+
+Go to the liquibase directory
+```bash
+cd liquibase
+```
+
+Download MySQL connector JAR file to be able to connect to your database
+```bash
+wget https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/8.0.31/mysql-connector-j-8.0.31.jar
 ```
 
 ### Convenience scripts
@@ -20,7 +42,13 @@ mkdir liquibase
 
 ```bash
 #!/bin/bash
-java -cp liquibase.jar:lib/*:mysql-connector-java-8.0.15.jar liquibase.integration.commandline.Main --changeLogFile=changelog.xml update
+liquibase --classpath=mysql-connector-j-8.0.31.jar --changeLogFile=changelog.xml update
+```
+
+* Make the `liquibase_update.sh` script executable
+
+```bash
+chmod u+x liquibase_update.sh
 ```
 
 * Create a `liquibase.properties` file to point Liquibase to your MySQL database running inside Docker. Modify any properties to match your environment if necessary.
@@ -95,3 +123,10 @@ Note that I prefer using the Liquibase changelog syntax and avoid using plain `s
 supports a myriad of databases and depending on the driver will translate it based on the driver used. This means as
 long as you use the abstractions your code will be portable to any of the other supported relational databases e.g. PostgreSQL 
 
+### Run your changeset on MySQL
+
+```bash
+./liquibase_update.sh
+```
+
+You should now have a table called `definitions` with three rows
