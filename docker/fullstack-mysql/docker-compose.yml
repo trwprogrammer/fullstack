@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  fullstack-mysql:
+    image: mysql:8.0.29
+    container_name: fullstack-mysql
+    hostname: fullstack-mysql
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: 'fullstack'
+      MYSQL_ROOT_USERNAME: 'root'
+      MYSQL_ROOT_PASSWORD: 'notagoodpassword'
+      MYSQL_ROOT_HOST: '%'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --lower_case_table_names=1
+    volumes:
+      - vol-fullstack-mysql:/var/lib/mysql:rw
+    networks:
+      - default
+
+volumes:
+  vol-fullstack-mysql:
+    name: vol-fullstack-mysql
+
+networks:
+  default:
+    driver: bridge

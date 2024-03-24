@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  fullstack-proxy:
+    build: .
+    container_name: fullstack-proxy
+    hostname: fullstack-proxy
+    ports:
+      - 80:80
+    restart: unless-stopped
+    environment:
+      HOST: host.docker.internal
+    networks:
+      - default
+networks:
+  default:
+    driver: bridge
