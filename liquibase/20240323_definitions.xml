@@ -18,22 +18,22 @@
     </changeSet>
     <changeSet author="therealworldprogrammer" id="definitions_data">
         <insert tableName="definitions">
-            <column name="id" value="dudoo"/>
-            <column name="title" value="Dudoo"/>
+            <column name="id" value="computer"/>
+            <column name="title" value="Computer"/>
             <column name="lexical_categories" value="noun"/>
-            <column name="definition" value="The most deformed potato in any given collection of potatoes."/>
+            <column name="definition" value="An electronic device for storing and processing data, typically in binary form, according to instructions given to it in a variable program."/>
         </insert>
         <insert tableName="definitions">
-            <column name="id" value="abilene"/>
-            <column name="title" value="Abilene"/>
-            <column name="lexical_categories" value="adj"/>
-            <column name="definition" value="Descriptive of the pleasing coolness on the reverse side of the pillow."/>
-        </insert>
-        <insert tableName="definitions">
-            <column name="id" value="plymouth"/>
-            <column name="title" value="Plymouth"/>
+            <column name="id" value="computer_programming"/>
+            <column name="title" value="Computer Programming"/>
             <column name="lexical_categories" value="verb"/>
-            <column name="definition" value="To relate an amusing story to someone without remembering that it was they who told it to you in the first place."/>
+            <column name="definition" value="Computer programming or coding is the composition of sequences of instructions, called programs, that computers can follow to perform tasks."/>
+        </insert>
+        <insert tableName="definitions">
+            <column name="id" value="java"/>
+            <column name="title" value="Java"/>
+            <column name="lexical_categories" value="noun"/>
+            <column name="definition" value="I'm dying for a cup of java"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
