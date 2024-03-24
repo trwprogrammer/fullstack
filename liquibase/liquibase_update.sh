@@ -1,2 +1,2 @@
 #!/bin/bash
-java -cp liquibase.jar:lib/*:mysql-connector-java-8.0.15.jar liquibase.integration.commandline.Main --changeLogFile=changelog.xml update
+liquibase --classpath=mysql-connector-j-8.0.31.jar --changeLogFile=changelog.xml update
