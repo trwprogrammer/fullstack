@@ -15,22 +15,26 @@ Create new project (pick defaults when prompted)
 ng new frontend
 ```
 
-Go into directory to:
+Go into `frontend` directory to:
 * Add additional dependencies
 * Create service
 * Create component
 
-Generate liff service:
 ```bash
-ng generate service liff
+cd frontend
 ```
 
-Generate liff component:
+Generate definition service:
 ```bash
-ng generate component liff
+ng generate service definition
 ```
 
-Add [Angular Material](https://material.angular.io/) library:
+Generate definition component:
+```bash
+ng generate component definition
+```
+
+Add [Angular Material](https://material.angular.io/) library and select all default options:
 ```bash
 ng add @angular/material
 ```
@@ -74,9 +78,9 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-Create custom `Liff` domain object in file `liff.ts`
+Create custom `Definition` domain object in file `definition.ts`
 ```typescript
-export interface Liff {
+export interface Definition {
   id: string;
   title: string;
   lexicalCategories: string;
@@ -84,62 +88,62 @@ export interface Liff {
 }
 ```
 
-Inject Angular `HttpClient` service into `LiffService` to communicate to backend
+Inject Angular `HttpClient` service into `DefinitionService` to communicate to backend
 
 ```typescript
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Liff} from "./liff";
+import {Definition} from "./definition";
 import {Observable} from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class LiffService {
+export class DefinitionService {
 
-  constructor(private httpClient:HttpClient) {}
+    constructor(private httpClient:HttpClient) {}
 
-  getLiff():Observable<Liff> {
-    return this.httpClient.get<Liff>(`/api/liff`);
-  }
+    getDefinition():Observable<Definition> {
+        return this.httpClient.get<Definition>(`/api/definition`);
+    }
 }
 ```
 
-Inject `LiffService` service into `LiffComponent` to get liffs. Also add `Angular Material` modules to enable tags in `liff.component.ts` file
+Inject `DefinitionService` service into `DefinitionComponent` to get dictionary definitions. Also add `Angular Material` modules to enable tags in `definition.component.ts` file
 
 ```typescript
 import { Component } from '@angular/core';
-import {LiffService} from "../liff.service";
+import {DefinitionService} from "../definition.service";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
-import {Liff} from "../liff";
+import {Definition} from "../definition";
 import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-liff',
+  selector: 'app-definition',
   standalone: true,
   imports: [MatCardModule, MatIconModule, MatButtonModule, NgIf],
-  templateUrl: './liff.component.html',
-  styleUrl: './liff.component.css'
+  templateUrl: './definition.component.html',
+  styleUrl: './definition.component.css'
 })
-export class LiffComponent {
+export class DefinitionComponent {
+    
+  definition:Definition | null = null;
 
-  liff:Liff | null = null;
-
-  constructor(private liffService:LiffService) {
-    this.getLiff();
+  constructor(private definitionService:DefinitionService) {
+    this.getDefinition();
   }
 
-  getLiff() {
-    this.liffService.getLiff()
+  getDefinition() {
+    this.definitionService.getDefinition()
       .subscribe({
         next: (data) => {
-          this.liff = data;
+          this.definition = data;
         },
         error: (error) => {
-          console.error("Failed to get liff", error);
-          this.liff = {
+          console.error("Failed to get definition", error);
+          this.definition = {
             id: 'error',
             title: 'Something went wrong :/',
             lexicalCategories: 'na',
@@ -151,39 +155,39 @@ export class LiffComponent {
 }
 ```
 
-Update `liff.component.html` to render liff as a `Angular Material Card`
+Update `definition.component.html` to render definition as a `Angular Material Card`
 
 ```html
-<mat-card *ngIf="liff" class="liff-card">
+<mat-card *ngIf="definition" class="definition-card">
   <mat-card-header>
-    <div mat-card-avatar class="liff-card-header-image"></div>
-    <mat-card-title>{{liff.title}}</mat-card-title>
-    <mat-card-subtitle><strong>{{liff.lexicalCategories}}</strong></mat-card-subtitle>
+    <div mat-card-avatar class="definition-card-header-image"></div>
+    <mat-card-title>{{definition.title}}</mat-card-title>
+    <mat-card-subtitle><strong>{{definition.lexicalCategories}}</strong></mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <p>{{liff.definition}}</p>
+    <p>{{definition.definition}}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button  mat-flat-button color="primary" (click)="getLiff()">Random</button>
+    <button  mat-flat-button color="primary" (click)="getDefinition()">Random</button>
     <a mat-button href="https://en.wikipedia.org/wiki/The_Meaning_of_Liff" target="_blank"><mat-icon fontIcon="open_in_new"></mat-icon>Wikipedia - The Meaning of Liff</a>
   </mat-card-actions>
 </mat-card>
 ```
 
-Update `liff.component.css` to render the card with custom format. The `/assets/img/book_image.png` needs to be added to the project manually later
+Update `definition.component.css` to render the card with custom format. The `/assets/img/book_image.png` needs to be added to the project manually later
 ```css
-.liff-card {
+.definition-card {
   max-width: 400px;
   margin: auto;
   width: 50%;
 }
 
-.liff-card mat-card-subtitle {
+.definition-card mat-card-subtitle {
   font-family: "Marck Script", cursive;
   font-size: large;
 }
 
-.liff-card p {
+.definition-card p {
   font-family: "Marck Script", cursive;
   font-weight: 400;
   font-style: normal;
@@ -191,32 +195,49 @@ Update `liff.component.css` to render the card with custom format. The `/assets/
   padding-bottom: 30px;
 }
 
-.liff-card mat-card-content {
+.definition-card mat-card-content {
   background-color: #e5e5e5;
 }
 
-.liff-card-header-image {
+.definition-card-header-image {
   background-image: url('/assets/img/book_image.png');
   background-size: cover;
 }
 ```
-
-index.htlm?????????????
 
 Remove everything from `app.component.html`, except for `<router-outlet />`. The file should look like this:
 ```html
 <router-outlet />
 ```
 
-Next setup routes to connect `/liff` to the `LiffComponent` in the `app.routes.ts` file. Homework is to add an invalid URL component
+Next setup routes to connect `/definition` to the `DefinitionComponent` in the `app.routes.ts` file. Homework is to add an invalid URL component
 ```javascript
 import { Routes } from '@angular/router';
-import {LiffComponent} from "./liff/liff.component";
+import { DefinitionComponent } from "./definition/definition.component";
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'liff', pathMatch: 'full'},
-    { path: 'liff',  component: LiffComponent},
+    { path: '', redirectTo: 'definition', pathMatch: 'full'},
+    { path: 'definition',  component: DefinitionComponent},
     // Component to show for invalid url
-    { path: '**', component: LiffComponent}
+    { path: '**', component: DefinitionComponent}
 ];
+```
+
+Update the main `index.html` file:
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Fullstack Tutorial - The Real World Programmer</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
 ```
