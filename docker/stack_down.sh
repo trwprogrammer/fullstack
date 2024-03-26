@@ -9,11 +9,11 @@ n)
   exit
   ;;
 *)
-  echo Invalid response, expected (y/n)
+  echo "Invalid response, expected (y/n)"
   exit 1
   ;;
 esac
 
 cd $1
-docker-compose down
+docker-compose down -v
 cd ..
