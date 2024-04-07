@@ -142,11 +142,11 @@ public class DefinitionService {
 }
 ```
 
-* Create a new package `io.trwp.tuts.fullstack.definition.rest` for custom Rest endpoints
-* Create a new class `io.trwp.tuts.fullstack.definition.rest.DefinitionRestController`
+* Create a new package `io.trwp.tuts.fullstack.dictionary.rest` for custom Rest endpoints
+* Create a new class `io.trwp.tuts.fullstack.dictionary.rest.DefinitionRestController`
 
 ```java
-package io.trwp.tuts.fullstack.definition.rest;
+package io.trwp.tuts.fullstack.dictionary.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
