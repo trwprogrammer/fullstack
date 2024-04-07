@@ -1,7 +1,11 @@
 # Welcome to The Real World Programmer - Fullstack Tutorial
 
 This tutorial will help you get started with a fullstack development
-environment. We will build a simple dictionary application in which 
+environment. 
+
+![Promo Screenshot](extra/screenshots/lets_go_fullstack.png)
+
+We will build a simple dictionary application in which 
 words along with their definitions are stored in a `definitions` table.
 
 The `definitions` will be loaded from the [MySQL](https://www.mysql.com/) database, exposed through a 
