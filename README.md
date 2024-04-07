@@ -1,7 +1,9 @@
 # Welcome to The Real World Programmer - Fullstack Tutorial
 
 This tutorial will help you get started with a fullstack development
-environment. 
+environment 
+
+![Promo Screenshot](extra/screenshots/lets_go_fullstack.png)
 
 This tech stack includes:
 * Docker
@@ -11,8 +13,6 @@ This tech stack includes:
 * Spring Boot
 * Angular 
 * Liquibase
-
-![Promo Screenshot](extra/screenshots/lets_go_fullstack.png)
 
 We will build a simple dictionary application in which 
 words along with their definitions are stored in a `definitions` table.
