@@ -3,6 +3,15 @@
 This tutorial will help you get started with a fullstack development
 environment. 
 
+This tech stack includes:
+* Docker
+* MySQL
+* Apache
+* Java
+* Spring Boot
+* Angular 
+* Liquibase
+
 ![Promo Screenshot](extra/screenshots/lets_go_fullstack.png)
 
 We will build a simple dictionary application in which 
